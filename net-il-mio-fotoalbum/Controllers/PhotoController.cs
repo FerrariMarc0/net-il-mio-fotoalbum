@@ -35,8 +35,34 @@ namespace net_il_mio_fotoalbum.Controllers
             }
         }
 
+        [HttpGet]
+        public IActionResult Create()
+        {
+            return View("Create");
+        }
 
+        /*[HttpPost]
+        public IActionResult Create()
+        {
+            return View("Create");
+        }
 
+        [HttpGet]
+        public IActionResult Update()
+        {
+            return View("Update");
+        }*/
 
+        [HttpPost]
+        public IActionResult Update()
+        {
+            return View("Update");
+        }
+
+        [HttpPost]
+        public IActionResult Delete()
+        {
+            return View("Delete");
+        }
     }
 }
