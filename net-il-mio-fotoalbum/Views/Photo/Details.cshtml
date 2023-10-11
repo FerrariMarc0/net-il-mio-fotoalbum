@@ -1,0 +1,22 @@
+﻿@model Photo
+
+<div class="row m-auto">
+    <div class="col-12">
+        <h1 class="text-center mb-5">Dettagli</h1>
+        <div class="card m-auto shadow-lg" style="width: 30rem;">
+            <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title">
+            <div class="card-body">
+                <h5 class="card-title">Titolo: @Model.Title</h5>
+                <p class="card-text">Descizione: @Model.Description</p>
+            </div>
+            <ul class="list-group list-group-flush">
+                <li class="list-group-item">ID: @Model.Id</li>
+                <li class="list-group-item">Visibile: @Model.Visible</li>
+            </ul>
+            <div class="card-body">
+                <a href="#" class="card-link">Card link</a>
+                <a href="#" class="card-link">Another link</a>
+            </div>
+        </div>
+    </div>
+</div>
