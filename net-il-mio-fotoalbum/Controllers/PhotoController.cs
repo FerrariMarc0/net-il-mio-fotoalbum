@@ -41,23 +41,34 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Create");
         }
 
-        /*[HttpPost]
-        public IActionResult Create()
+        [HttpPost]
+        public IActionResult Create(Photo newPhoto)
         {
-            return View("Create");
+            if (!ModelState.IsValid)
+            {
+                return View("Create");
+            }
+
+            using(PhotoContext db = new PhotoContext())
+            {
+                db.Photos.Add(newPhoto);
+                db.SaveChanges();
+            }
+
+            return RedirectToAction("Index");
         }
 
         [HttpGet]
         public IActionResult Update()
         {
             return View("Update");
-        }*/
+        }
 
-        [HttpPost]
+       /* [HttpPost]
         public IActionResult Update()
         {
             return View("Update");
-        }
+        }*/
 
         [HttpPost]
         public IActionResult Delete()
