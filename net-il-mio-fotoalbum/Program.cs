@@ -13,6 +13,7 @@ namespace net_il_mio_fotoalbum
             builder.Services.AddControllersWithViews();
             builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddScoped<PhotoContext, PhotoContext>();
+            builder.Services.AddScoped<IRepositoryPhotos, RepositoryPhotos>();
 
             var app = builder.Build();
 

@@ -9,20 +9,18 @@ namespace net_il_mio_fotoalbum.Controllers.API
     [ApiController]
     public class ApiPhotoController : ControllerBase
     {
-        private PhotoContext _myDb;
-        public ApiPhotoController(PhotoContext myDb)
+        private IRepositoryPhotos _repoPhotos;
+        public ApiPhotoController(IRepositoryPhotos repoPhotos)
         {
-            _myDb = myDb;
+            _repoPhotos = repoPhotos;
         }
 
         [HttpGet]
         public IActionResult GetPhotos()
         {
-            
-            List<Photo> photos = _myDb.Photos.Include(photo => photo.Categories).ToList();
-
+            List<Photo> photos = _repoPhotos.GetPhotos();            
+           
             return Ok(photos);
-            
         }
 
         [HttpGet]
@@ -33,7 +31,7 @@ namespace net_il_mio_fotoalbum.Controllers.API
                 return BadRequest(new { Message = "Non hai inserito nessuna stringa di ricerca." });
             }
 
-            List<Photo> foundedPhotos = _myDb.Photos.Where(photo => photo.Title.ToLower().Contains(search.ToLower())).ToList();
+            List<Photo> foundedPhotos = _repoPhotos.GetPhotoByTitle(search);
 
             return Ok(foundedPhotos);
             
@@ -42,7 +40,7 @@ namespace net_il_mio_fotoalbum.Controllers.API
         [HttpGet("{id}")]
         public IActionResult PhotoById(int id)
         {
-            Photo? photo = _myDb.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstOrDefault();
+            Photo photo = _repoPhotos.GetPhotoById(id);
 
             if(photo != null)
             {
@@ -59,10 +57,16 @@ namespace net_il_mio_fotoalbum.Controllers.API
         {
             try
             {
-                _myDb.Photos.Add(newPhoto);
-                _myDb.SaveChanges();
+               bool result = _repoPhotos.AddPhoto(newPhoto);
 
-                return Ok();
+                if (result)
+                {
+                    return Ok();
+                }
+                else
+                {
+                    return BadRequest();
+                }
 
             }catch(Exception ex)
             {
@@ -73,35 +77,33 @@ namespace net_il_mio_fotoalbum.Controllers.API
         [HttpPut("{id}")]
         public IActionResult Update(int id, [FromBody] Photo updatedPhoto)
         {
-            Photo? photoToUpdate = _myDb.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+            bool result = _repoPhotos.EditPhoto(id, updatedPhoto);
 
-            if(photoToUpdate == null)
+            if (result)
             {
-                return NotFound();
+                return Ok();
             }
-            photoToUpdate.Title = updatedPhoto.Title;
-            photoToUpdate.Description = updatedPhoto.Description;
-            photoToUpdate.ImageUrl = updatedPhoto.ImageUrl;
+            else
+            {
+                return BadRequest();
+            }
 
-            _myDb.SaveChanges();
-
-            return Ok();
+            
         }
 
         [HttpDelete("{id}")]
         public IActionResult Delete(int id)
         {
-            Photo? photoToDelete = _myDb.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+            bool result = _repoPhotos.DeletePhoto(id);
 
-            if(photoToDelete == null)
+            if (result)
             {
-                return NotFound();
+                return Ok();
             }
-
-            _myDb.Photos.Remove(photoToDelete);
-            _myDb.SaveChanges();
-
-            return Ok();
+            else
+            {
+                return BadRequest();
+            }
         }
     }
 }
