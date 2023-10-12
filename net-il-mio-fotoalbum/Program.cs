@@ -1,3 +1,5 @@
+using net_il_mio_fotoalbum.Database;
+
 namespace net_il_mio_fotoalbum
 {
     public class Program
@@ -8,6 +10,7 @@ namespace net_il_mio_fotoalbum
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddScoped<PhotoContext, PhotoContext>();
 
             var app = builder.Build();
 
