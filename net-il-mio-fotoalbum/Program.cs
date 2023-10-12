@@ -1,4 +1,5 @@
 using net_il_mio_fotoalbum.Database;
+using System.Text.Json.Serialization;
 
 namespace net_il_mio_fotoalbum
 {
@@ -10,6 +11,7 @@ namespace net_il_mio_fotoalbum
 
             // Add services to the container.
             builder.Services.AddControllersWithViews();
+            builder.Services.AddControllers().AddJsonOptions(x => x.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles);
             builder.Services.AddScoped<PhotoContext, PhotoContext>();
 
             var app = builder.Build();

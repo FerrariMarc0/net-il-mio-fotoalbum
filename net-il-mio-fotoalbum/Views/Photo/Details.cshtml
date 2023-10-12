@@ -1,4 +1,5 @@
-﻿@model Photo
+﻿@using net_il_mio_fotoalbum.Models.Database_Models;
+@model Photo
 
 <div class="row m-auto">
     <div class="col-12">
@@ -6,16 +7,36 @@
         <div class="card m-auto shadow-lg" style="width: 30rem;">
             <img src="@Model.ImageUrl" class="card-img-top" alt="@Model.Title">
             <div class="card-body">
-                <h5 class="card-title">Titolo: @Model.Title</h5>
-                <p class="card-text">Descizione: @Model.Description</p>
+                <h5 class="card-title text-center text-uppercase">@Model.Title</h5>
+                <p class="card-text">Descrizione: @Model.Description</p>
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: @Model.Id</li>
                 <li class="list-group-item">Visibile: @Model.Visible</li>
             </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">Card link</a>
-                <a href="#" class="card-link">Another link</a>
+            <div class="px-2 pt-3">
+                @if (Model.Categories != null && Model.Categories.Count > 0)
+                {
+                    @foreach (Category category in Model.Categories)
+                    {
+                        <span class="badge bg-primary text-center py-2">@category.Title</span>
+
+                    }
+                }
+                else
+                {
+                    <span class="text-warning">Nessuna categoria associata.</span>
+                }
+            </div>
+            
+
+            <div class="card-body text-center d-flex justify-content-between">
+                <a class="text-primary fs-1" href="@Url.Action("Index", "Photo")" title="Torna indietro" tabindex="-1" role="button" aria-disabled="true"><i class="fa-solid fa-arrow-left"></i></a>
+                <a class="text-warning fs-1" href="@Url.Action("Update", "Photo", new {id = @Model.Id})" title="Modifica" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-pen-to-square"></i></a>
+                <form asp-controller="Pizza" asp-action="Delete" asp-route-id="@Model.Id" method="post">
+                    @Html.AntiForgeryToken()
+                    <button class="del btn btn-danger fs-3" type="submit" title="Elimina"><i class="fa-regular fa-trash-can"></i></button>
+                </form>
             </div>
         </div>
     </div>

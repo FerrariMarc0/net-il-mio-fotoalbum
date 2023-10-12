@@ -8,11 +8,15 @@ namespace net_il_mio_fotoalbum.Models
     {
         public int Id { get; set; }
         public List<Category>? Categories { get; set; }
-        [MaxLength(100)]
+        [Required(ErrorMessage = "Il titolo è obbligatorio.")]
+        [MaxLength(100, ErrorMessage = "La lunghezza massima è di 100 caratteri.")]
         public string Title { get; set; }
+        [Required(ErrorMessage = "La descrizione è obbligatoria.")]
         [Column(TypeName = "text")]
         public string Description { get; set; }
-        [MaxLength(500)]
+        [Required(ErrorMessage = "Link dell'immagine obbligatorio.")]
+        [Url(ErrorMessage = "Inserisci un link immagine valido.")]
+        [MaxLength(500, ErrorMessage = "Il link dell'immagine non deve superare i 500 caratteri.")]
         public string ImageUrl { get; set; }
         public byte[]? ImageFile {  get; set; }
         public string ImageSrc => ImageFile is null ? (ImageUrl is null ? "" : ImageUrl) : $"data:image/png;base64,{Convert.ToBase64String(ImageFile)}";

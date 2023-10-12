@@ -14,7 +14,7 @@ else
             </div>
             
 
-            <table class="table h-100 shadow-lg text-light">
+            <table class="table h-100 shadow-lg text-center fs-4 align-middle">
                 <thead>
                     <tr>
                         <th scope="col">ID</th>
@@ -34,7 +34,7 @@ else
                             <td>@photo.Title</td>
                             <td>@photo.Description</td>
                             <td>@photo.Visible</td>
-                            <td>
+                            <td class="text-center">
                             <a class="btn btn-primary fs-3" href="@Url.Action("Details", "Photo", new {id = photo.Id})" title="Dettagli" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-eye"></i></a>
                             
                             <a class="btn btn-warning fs-3 my-3" href="@Url.Action("Update", "Photo", new {id = photo.Id})" title="Modifica" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-pen-to-square"></i></a>

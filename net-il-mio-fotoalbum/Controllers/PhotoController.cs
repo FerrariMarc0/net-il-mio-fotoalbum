@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
 using net_il_mio_fotoalbum.Database;
 using net_il_mio_fotoalbum.Models;
@@ -26,7 +27,7 @@ namespace net_il_mio_fotoalbum.Controllers
 
         public IActionResult Details(int id)
         {
-            Photo? foundedPhoto = _myDb.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+            Photo? foundedPhoto = _myDb.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstOrDefault();
 
             if (foundedPhoto == null)
             {
@@ -100,21 +101,102 @@ namespace net_il_mio_fotoalbum.Controllers
         }
 
         [HttpGet]
-        public IActionResult Update()
+        public IActionResult Update(int id)
         {
-            return View("Update");
+            Photo? photoToEdit = _myDb.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstOrDefault();
+
+            if (photoToEdit == null)
+            {
+                return NotFound("La pizza che vuoi modificare non è stata trovata");
+            }
+            else
+            {
+                List<Category> dbCategoriesList = _myDb.Categories.ToList();
+                List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+                foreach (Category category in dbCategoriesList)
+                {
+                    selectListItems.Add(new SelectListItem { Value = category.Id.ToString(), Text = category.Title, Selected = photoToEdit.Categories.Any(categoryAssociated => categoryAssociated.Id == category.Id) });
+                }
+
+                PhotoFormModel model = new PhotoFormModel { Photo = photoToEdit, Categories = selectListItems };
+
+                return View("Update", model);
+            }
         }
 
-       /* [HttpPost]
-        public IActionResult Update()
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public IActionResult Update(int id, PhotoFormModel data)
         {
-            return View("Update");
-        }*/
+            if (!ModelState.IsValid)
+            {
+                
+                List<Category> dbIngredientList = _myDb.Categories.ToList();
+                List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+                foreach (Category categories in dbIngredientList)
+                {
+                    selectListItems.Add(new SelectListItem { Value = categories.Id.ToString(), Text = categories.Title });
+                }
+                data.Categories = selectListItems;
+
+                return View("Update", data);
+            }
+
+
+            Photo? photoToUpdate = _myDb.Photos.Where(photo => photo.Id == id).Include(photo => photo.Categories).FirstOrDefault();
+
+            if (photoToUpdate != null)
+            {
+                photoToUpdate.Categories.Clear();
+
+                photoToUpdate.Title = data.Photo.Title;
+                photoToUpdate.Description = data.Photo.Description;
+                photoToUpdate.ImageUrl = data.Photo.ImageUrl;
+
+                if (data.SelectedCategoriesId != null)
+                {
+                    foreach (string categorySelectedId in data.SelectedCategoriesId)
+                    {
+                        int intCategorySelectedId = int.Parse(categorySelectedId);
+                        Category? categoryInDb = _myDb.Categories.Where(category => category.Id == intCategorySelectedId).FirstOrDefault();
+
+                        if (categoryInDb != null)
+                        {
+                            photoToUpdate.Categories.Add(categoryInDb);
+                        }
+                    }
+                }
+
+                _myDb.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound("Mi dispiace, non è stata trovata la foto da aggiornare.");
+            }
+        }
+    
 
         [HttpPost]
-        public IActionResult Delete()
+        [ValidateAntiForgeryToken]
+        public IActionResult Delete(int id)
         {
-            return View("Delete");
+            Photo? photoToDelete = _myDb.Photos.Where(photo => photo.Id == id).FirstOrDefault();
+
+            if (photoToDelete != null)
+            {
+                _myDb.Photos.Remove(photoToDelete);
+                _myDb.SaveChanges();
+
+                return RedirectToAction("Index");
+            }
+            else
+            {
+                return NotFound("La foto da eliminare non è stata trovata!");
+            }
         }
 
         private void SetImageFileFromFormFile(PhotoFormModel formData)

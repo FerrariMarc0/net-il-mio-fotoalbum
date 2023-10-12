@@ -1,0 +1,46 @@
+﻿@model PhotoFormModel
+
+<div class="text-center py-1 mt-5">
+    <h1>Crea un nuovo elemento</h1>
+</div>
+
+<div class="container shadow-lg rounded p-5" style="margin-top: 5rem">
+
+    <form asp-controller="Photo" asp-action="update" enctype="multipart/form-data" method="post">
+        @Html.AntiForgeryToken()
+
+        <div class="mb-3">
+            <label asp-for="Photo.Title" class="form-label text-uppercase">Nome:</label>
+            <input asp-for="Photo.Title" class="form-control" type="text" placeholder="Inserire un nome" autofocus="true">
+            <span asp-validation-for="Photo.Title" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Photo.Description" class="form-label text-uppercase">Descrizione:</label>
+            <input asp-for="Photo.Description" class="form-control" type="text" placeholder="Inserire una descrizione">
+            <span asp-validation-for="Photo.Description" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="SelectedCategoriesId" class="form-label text-uppercase">Seleziona la categoria:</label>
+            <select asp-for="SelectedCategoriesId" multiple="multiple" size="10" asp-items="@Model.Categories"></select>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="ImageFormFile" class="form-label text-uppercase">Carica un'immagine:</label>
+            <input asp-for="ImageFormFile" class="form-control" type="file">
+            <span asp-validation-for="ImageFormFile" class="text-danger"></span>
+        </div>
+
+        <div class="mb-3">
+            <label asp-for="Photo.ImageUrl" class="form-label text-uppercase">Link immagine:</label>
+            <input asp-for="Photo.ImageUrl" class="form-control" type="text" placeholder="Inserire un url per l'immagine">
+            <span asp-validation-for="Photo.ImageUrl" class="text-danger"></span>
+        </div>
+
+        <div class="d-grid mt-5">
+            <button class="btn btn-success" type="submit">Salva</button>
+        </div>
+
+    </form>
+</div>
