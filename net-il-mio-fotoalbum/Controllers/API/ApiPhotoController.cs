@@ -26,15 +26,18 @@ namespace net_il_mio_fotoalbum.Controllers.API
         [HttpGet]
         public IActionResult SearchPhotos(string? search)
         {
+            List<Photo> foundedPhotos = new List<Photo>();
+
             if(search == null)
             {
-                return BadRequest(new { Message = "Non hai inserito nessuna stringa di ricerca." });
+                foundedPhotos = _repoPhotos.GetPhotos();
+            }
+            else
+            {
+                foundedPhotos = _repoPhotos.GetPhotoByTitle(search);
             }
 
-            List<Photo> foundedPhotos = _repoPhotos.GetPhotoByTitle(search);
-
-            return Ok(foundedPhotos);
-            
+            return Ok(foundedPhotos);            
         }
 
         [HttpGet("{id}")]

@@ -33,7 +33,16 @@ else
                             <td><img src="@photo.ImageUrl" alt="@photo.Title"/></td>
                             <td>@photo.Title</td>
                             <td>@photo.Description</td>
-                            <td>@photo.Visible</td>
+                            <td>
+                                @if(photo.Visible == true)
+                                {
+                                    <span><i class="fa-solid fa-check text-success fs-1"></i></span>
+                                }
+                                else
+                                {
+                                    <span><i class="fa-solid fa-xmark text-danger fs-1"></i></span>
+                                }
+                            </td>
                             <td class="text-center">
                             <a class="btn btn-primary fs-3" href="@Url.Action("Details", "Photo", new {id = photo.Id})" title="Dettagli" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-eye"></i></a>
                             

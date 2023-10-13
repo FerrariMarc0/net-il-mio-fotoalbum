@@ -51,9 +51,6 @@ namespace net_il_mio_fotoalbum.Database
             {
                 return false;
             }
-            
-
-            
         }
 
         public bool EditPhoto(int id, Photo updatedPhoto)

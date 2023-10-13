@@ -17,3 +17,15 @@ footer{
     background-color: rgba(0, 0, 0, 0.2);
     border-radius: 10px;
 }
+
+.photo_out{
+    background-color: rgba(0, 0, 0, 0.8);
+    margin-top: 50px;
+    padding: 50px 30px;
+    height: 1000px;
+    border-radius: 15px;
+}
+
+#searchbar{
+    border-radius: 30px;
+}

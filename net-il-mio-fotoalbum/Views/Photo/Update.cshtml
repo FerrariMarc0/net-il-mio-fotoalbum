@@ -38,6 +38,12 @@
             <span asp-validation-for="Photo.ImageUrl" class="text-danger"></span>
         </div>
 
+        <div class="mb-3">
+            <label asp-for="Photo.Visible" class="form-label text-uppercase">Immagine visibile:</label>
+            <input asp-for="Photo.Visible" class="form-check-input ms-3">
+            <span asp-validation-for="Photo.Visible" class="text-danger"></span>
+        </div>
+
         <div class="d-grid mt-5">
             <button class="btn btn-success" type="submit">Salva</button>
         </div>

@@ -12,7 +12,17 @@
             </div>
             <ul class="list-group list-group-flush">
                 <li class="list-group-item">ID: @Model.Id</li>
-                <li class="list-group-item">Visibile: @Model.Visible</li>
+                <li class="list-group-item">
+                    Visibile: 
+                    @if (Model.Visible == true)
+                    {
+                        <span>Si</span>
+                    }
+                    else
+                    {
+                        <span>No</span>
+                    }
+                </li>
             </ul>
             <div class="px-2 pt-3">
                 @if (Model.Categories != null && Model.Categories.Count > 0)
