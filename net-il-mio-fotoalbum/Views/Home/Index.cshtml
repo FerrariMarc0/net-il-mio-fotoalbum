@@ -1,4 +1,6 @@
-﻿@{
+﻿@using net_il_mio_fotoalbum.Models.Database_Models;
+@model ContactMessage
+@{
     ViewData["Title"] = "Homepage";
 }
 
@@ -44,17 +46,18 @@
             </div>
             <div class="offcanvas-body text-light text-center px-5">
                 <form>
-                    <form>
+                    <form asp-asp-controller="Contact" asp-action="SendMessage" method="post">
                         <div class="mb-5">
-                            <label for="exampleInputEmail1" class="form-label">Indirizzo Email</label>
-                            <input type="email" class="form-control" id="exampleInputEmail1" autofocus>
+                            <label asp-for="Email" class="form-label">Indirizzo Email</label>
+                            <input asp-for="Email" type="email" class="form-control" id="exampleInputEmail1" autofocus>
+                            <span asp-validation-for="Email" class="text-danger"></span>
                             <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
                         </div>
                         
                         <div class="mb-3 mt-5">
-                            <label for="floatingTextarea2" class="form-label">Messaggio</label>
-                            <textarea class="form-control" placeholder="Il tuo messaggio..." id="floatingTextarea2" style="height: 100px"></textarea>
-                            
+                            <label asp-for="MessageText" class="form-label">Messaggio:</label>
+                            <textarea asp-for="MessageText" class="form-control" placeholder="Il tuo messaggio..." id="floatingTextarea2" style="height: 100px"></textarea>
+                            <span asp-validation-for="MessageText" class="text-danger"></span>
                         </div>
 
                         <button type="submit" class="btn btn-primary px-5">Invia</button>
