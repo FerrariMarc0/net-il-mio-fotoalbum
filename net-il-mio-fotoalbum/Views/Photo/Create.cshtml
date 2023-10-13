@@ -4,30 +4,30 @@
     <h1>Crea un nuovo elemento</h1>
 </div>
 
-<div class="container shadow-lg rounded p-5" style="margin-top: 5rem">
+<div class="form_create container shadow-lg rounded p-5" style="margin-top: 5rem">
 
     <form asp-controller="Photo" asp-action="Create" enctype="multipart/form-data" method="post">
         @Html.AntiForgeryToken()
 
         <div class="mb-3">
-            <label asp-for="Photo.Title" class="form-label text-uppercase">Nome:</label>
+            <label asp-for="Photo.Title" class="fw-bold form-label text-uppercase">Nome:</label>
             <input asp-for="Photo.Title" class="form-control" type="text" placeholder="Inserire un nome" autofocus="true">
             <span asp-validation-for="Photo.Title" class="text-danger"></span>
         </div>
 
         <div class="mb-3">
-            <label asp-for="Photo.Description" class="form-label text-uppercase">Descrizione:</label>
+            <label asp-for="Photo.Description" class="fw-bold form-label text-uppercase">Descrizione:</label>
             <input asp-for="Photo.Description" class="form-control" type="text" placeholder="Inserire una descrizione">
             <span asp-validation-for="Photo.Description" class="text-danger"></span>
         </div>
 
-        <div class="mb-3">
-            <label asp-for="SelectedCategoriesId" class="form-label text-uppercase">Seleziona la categoria:</label>
+        <div class="mb-3 d-flex flex-column">
+            <label asp-for="SelectedCategoriesId" class="fw-bold form-label text-uppercase">Seleziona la categoria:</label>
             <select asp-for="SelectedCategoriesId" multiple="multiple" size="10" asp-items="@Model.Categories"></select>
         </div>
 
         <div class="mb-3">
-            <label asp-for="ImageFormFile" class="form-label text-uppercase">Carica un'immagine:</label>
+            <label asp-for="ImageFormFile" class="fw-bold form-label text-uppercase">Carica un'immagine:</label>
             <input asp-for="ImageFormFile" class="form-control" type="file">
             <span asp-validation-for="ImageFormFile" class="text-danger"></span>
         </div>
@@ -39,7 +39,7 @@
         </div>
 
         <div class="mb-3">
-            <label asp-for="Photo.Visible" class="form-label text-uppercase">Immagine visibile:</label>
+            <label asp-for="Photo.Visible" class="fw-bold form-label text-uppercase">Immagine visibile:</label>
             <input asp-for="Photo.Visible" class="form-check-input ms-3">
             <span asp-validation-for="Photo.Visible" class="text-danger"></span>
         </div>

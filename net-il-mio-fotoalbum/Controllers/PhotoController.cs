@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.SqlServer.Server;
@@ -8,6 +9,7 @@ using net_il_mio_fotoalbum.Models.Database_Models;
 
 namespace net_il_mio_fotoalbum.Controllers
 {
+    [Authorize(Roles = "USER, ADMIN, SUPERADMIN")]
     public class PhotoController : Controller
     {
         private PhotoContext _myDb;
@@ -39,6 +41,7 @@ namespace net_il_mio_fotoalbum.Controllers
             }            
         }
 
+        [Authorize(Roles = "ADMIN, SUPERADMIN")]
         [HttpGet]
         public IActionResult Create()
         {
@@ -55,6 +58,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return View("Create", model);
         }
 
+        [Authorize(Roles = "ADMIN, SUPERADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Create(PhotoFormModel data)
@@ -100,6 +104,7 @@ namespace net_il_mio_fotoalbum.Controllers
             return RedirectToAction("Index");
         }
 
+        [Authorize(Roles = "ADMIN, SUPERADMIN")]
         [HttpGet]
         public IActionResult Update(int id)
         {
@@ -125,6 +130,7 @@ namespace net_il_mio_fotoalbum.Controllers
             }
         }
 
+        [Authorize(Roles = "ADMIN, SUPERADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Update(int id, PhotoFormModel data)
@@ -178,8 +184,8 @@ namespace net_il_mio_fotoalbum.Controllers
                 return NotFound("Mi dispiace, non è stata trovata la foto da aggiornare.");
             }
         }
-    
 
+        [Authorize(Roles = "ADMIN, SUPERADMIN")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public IActionResult Delete(int id)

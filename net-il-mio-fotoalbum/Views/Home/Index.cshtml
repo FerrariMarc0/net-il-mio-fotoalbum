@@ -107,20 +107,22 @@
 
                 photos = photos.filter(photo => photo.visible === true);
 
-                photos.forEach(photo => { 
+                photos.forEach(photo => {
                     console.log(photo);
-
-                    photosList.innerHTML +=
-                        `
+                    if (photo.Visible) {
+                        photosList.innerHTML +=
+                            `
                             <div style="width: 20rem;">
                                 <img src="${photo.imageUrl}" class="card-img-top rounded-circle" alt="Immagine: ${photo.title}" title="Descrizione: ${photo.description}"/>
                                  <h4 class="text-center text-light text-uppercase">${photo.title}</h3>
                             </div>
 
-                        `
-                })
+                        `;
+                    }
+
+                });
             }
-        })
+        });
     }
 </script>
 

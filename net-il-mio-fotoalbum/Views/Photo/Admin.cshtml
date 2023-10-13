@@ -9,9 +9,13 @@ else
     <div class="row">
         <div class="col-12 p-5">
             <h1 class="text-center mb-5">Le tue foto</h1>
-            <div class="container text-center mb-3">
-                <a href="@Url.Action("Create", "Photo")" type="button" class="btn btn-primary">Aggiungi nuovo elemento</a>
-            </div>
+            @if(User.IsInRole("SUPERADMIN"))
+            {
+                <div class="container text-center mb-3">
+                    <a href="@Url.Action("Create", "Photo")" type="button" class="btn btn-primary">Aggiungi nuovo elemento</a>
+                </div>
+            }
+            
             
 
             <table class="table h-100 shadow-lg text-center fs-4 align-middle">
@@ -45,12 +49,15 @@ else
                             </td>
                             <td class="text-center">
                             <a class="btn btn-primary fs-3" href="@Url.Action("Details", "Photo", new {id = photo.Id})" title="Dettagli" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-eye"></i></a>
-                            
-                            <a class="btn btn-warning fs-3 my-3" href="@Url.Action("Update", "Photo", new {id = photo.Id})" title="Modifica" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-pen-to-square"></i></a>
-                            <form asp-controller="Photo" asp-action="Delete" asp-route-id="@photo.Id" method="post">
-                                @Html.AntiForgeryToken()
-                                <button class="btn btn-danger fs-3" type="submit" title="Elimina"><i class="fa-regular fa-trash-can"></i></button>
-                            </form>
+                                @if (User.IsInRole("SUPERADMIN"))
+                                {
+                                    <a class="btn btn-warning fs-3 my-3" href="@Url.Action("Update", "Photo", new {id = photo.Id})" title="Modifica" tabindex="-1" role="button" aria-disabled="true"><i class="fa-regular fa-pen-to-square"></i></a>
+                                    <form asp-controller="Photo" asp-action="Delete" asp-route-id="@photo.Id" method="post">
+                                        @Html.AntiForgeryToken()
+                                        <button class="btn btn-danger fs-3" type="submit" title="Elimina"><i class="fa-regular fa-trash-can"></i></button>
+                                    </form>
+                                }
+                                
                             
                             </td>
                         </tr>

@@ -18,8 +18,13 @@ namespace net_il_mio_fotoalbum.Controllers.API
         [HttpGet]
         public IActionResult GetPhotos()
         {
-            List<Photo> photos = _repoPhotos.GetPhotos();            
-           
+            List<Photo> photos = _repoPhotos.GetPhotos();
+
+            if (!User.IsInRole("SuperAdmin"))
+            {
+                photos = photos.Where(photo => photo.Visible).ToList();
+            }
+
             return Ok(photos);
         }
 
